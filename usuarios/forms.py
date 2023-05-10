@@ -44,7 +44,7 @@ class CadastroForms(forms.Form):
         label='Email', 
         required=True, 
         max_length=100,
-        widget=forms.TextInput(
+        widget=forms.EmailInput(
             attrs={
                 'class': 'form-control',
                 'placeholder': 'Ex.: danieloliveira@gmail.com'
