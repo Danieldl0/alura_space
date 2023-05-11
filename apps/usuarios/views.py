@@ -5,6 +5,9 @@ from django.contrib import auth, messages
 
 
 def cadastro(request, template_name='usuarios/cadastro.html'):
+    if request.user.is_authenticated:
+        return redirect('index')
+
     form = CadastroForms()
 
     if request.method == 'POST':
@@ -33,6 +36,8 @@ def cadastro(request, template_name='usuarios/cadastro.html'):
 
 
 def login(request, template_name='usuarios/login.html'):
+    if request.user.is_authenticated:
+        return redirect('index')
 
     form = LoginForms()
 
