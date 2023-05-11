@@ -1,9 +1,8 @@
-{% extends 'usuarios/base.html' %}
+{% extends 'shared/base.html' %}
 {% load static %}
 
 
 {% block content %}
-    {% include 'partials/_menu.html' %}
         <section class="galeria" style="margin-left: 5em">
             <form action="{% url 'cadastro' %}" method="POST">
                 {% csrf_token %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from usuarios.forms import LoginForms, CadastroForms
+from apps.usuarios.forms import LoginForms, CadastroForms
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 
@@ -45,7 +45,7 @@ def login(request, template_name='usuarios/login.html'):
 
             usuario = auth.authenticate(request, username=nome, password=senha)
             if not usuario:
-                messages.error(request, f'Erro ao efetuar login')
+                messages.error(request, 'Erro ao efetuar login')
                 return redirect('login')
 
             auth.login(request, usuario)
