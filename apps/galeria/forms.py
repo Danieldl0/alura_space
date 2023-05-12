@@ -2,6 +2,15 @@ from django import forms
 from apps.galeria.models import Fotografia
 
 class FotografiaForm(forms.ModelForm):
+
+    # data_fotografia = forms.DateField(
+    #     widget= forms.DateInput(attrs={
+    #             'class': 'form-control',
+    #             'type': 'date'
+    #             }
+    #     )
+    # )
+
     class Meta:
         model = Fotografia
         exclude = ["publicada","usuario",]
@@ -29,7 +38,6 @@ class FotografiaForm(forms.ModelForm):
                 'class': 'form-control',
                 'type': 'date'
             },
-            format= '%d/%m/%Y'
             ),
             'foto': forms.FileInput(attrs={
                 'class': 'form-control'
