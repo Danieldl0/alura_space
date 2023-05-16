@@ -11,7 +11,7 @@ def index(request, template_name="galeria/index.html"):
         return redirect('login')
 
     #filtrando e ordenando as fotografias pela data e se está habilitado a opção publicada.
-    fotografias = Fotografia.objects.order_by("data_fotografia").filter(publicada=True)
+    fotografias = Fotografia.objects.order_by("data_fotografia").filter(publicada=True, usuario = request.user)
     return render(request, template_name, {"cards":fotografias})
 
 #view fotografia pelo id
@@ -20,7 +20,7 @@ def imagem(request, id ,template_name="galeria/imagem.html"):
         messages.error(request, 'Usuario não logado')
         redirect('login')
 
-    fotografia = get_object_or_404(Fotografia, pk=id)
+    fotografia = get_object_or_404(Fotografia, pk=id, usuario = request.user)
     return render(request, template_name, {"fotografia": fotografia})
 
 #view de busca
@@ -31,12 +31,12 @@ def buscar(request, template_name="galeria/index.html"):
         messages.error(request, 'Usuário não logado')
         return redirect('login')
 
-    fotografias = Fotografia.objects.order_by("data_fotografia").filter(publicada=True)
+    fotografias = Fotografia.objects.order_by("data_fotografia").filter(publicada=True, usuario = request.user)
 
     if "buscar" in request.GET:
         nome_a_busca = request.GET["buscar"]
         if nome_a_busca:
-            fotografias = fotografias.filter(nome__icontains = nome_a_busca)
+            fotografias = fotografias.filter(nome__icontains = nome_a_busca, usuario = request.user)
 
     return render(request, template_name, {"cards":fotografias})
 
@@ -65,7 +65,7 @@ def editar_imagem(request, id, template_name="galeria/editar_imagem.html"):
         messages.error(request, 'Usuario não logado')
         return redirect('login')
 
-    fotografia = get_object_or_404(Fotografia, pk=id)
+    fotografia = get_object_or_404(Fotografia, pk=id, usuario = request.user)
     form = FotografiaForm(instance=fotografia)
 
     if request.method == 'POST':
@@ -84,7 +84,7 @@ def deletar_imagem(request, id):
         messages.error(request, 'Usuario não logado')
         return redirect('login')
 
-    fotografia = get_object_or_404(Fotografia, pk = id)
+    fotografia = get_object_or_404(Fotografia, pk = id, usuario = request.user)
     fotografia.delete()
     messages.success(request, 'Deletado com sucesso')
     return redirect('index')
@@ -95,6 +95,6 @@ def filtro(request, categoria, template_name='galeria/index.html'):
         messages.error(request, 'Usuario não logado')
         return redirect('login')
 
-    fotografias = Fotografia.objects.order_by("data_fotografia").filter(publicada=True,categoria=categoria)
+    fotografias = Fotografia.objects.order_by("data_fotografia").filter(publicada=True,categoria=categoria, usuario = request.user)
 
     return render(request, template_name, {"cards": fotografias})
